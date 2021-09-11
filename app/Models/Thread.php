@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    protected $guarded=[];
     use HasFactory;
     public function channel(){
         return $this->belongsTo(Channel::class);
