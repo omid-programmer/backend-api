@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\v1\Thread;
 
-use App\Answer;
+use App\Models\Answer;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewReplySubmitted;
 use App\Repositories\AnswerRepository;
@@ -25,7 +25,7 @@ class AnswerController extends Controller
         ]);
     }
 
-    public function index()
+    public function index() 
     {
         $answers = resolve(AnswerRepository::class)->getAllAnswers();
 
