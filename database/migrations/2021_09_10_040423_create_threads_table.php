@@ -23,7 +23,7 @@ class CreateThreadsTable extends Migration
             
             $table->foreignId('channel_id')->constrained('channels')->onDelete('cascade');
             //best answer id
-            $table->foreignId('answer_id')->constrained('answers')->onDelete('cascade');
+            $table->unsignedBigInteger('best_answer_id')->nullable();
             $table->timestamps();
         });
     }

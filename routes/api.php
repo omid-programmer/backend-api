@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// API V1 Routes
+Route::prefix('v1/')->group(function () {
+    // Authentication Routes
+    include __DIR__ . '/v1/auth_routes.php';
+
+    // Authentication Routes
+    include __DIR__ . '/v1/user_routes.php';
+
+    // Channel Routes
+    include __DIR__ . '/v1/channels_routes.php';
+
+    // Thread Routes
+    include __DIR__ . '/v1/threads_routes.php';
 });
