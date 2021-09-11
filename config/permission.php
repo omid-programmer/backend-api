@@ -151,4 +151,18 @@ return [
 
         'store' => 'default',
     ],
+
+    'default_super_admin_email' => 'omid@gmail.com',
+
+    'default_roles' => [
+        'Super Admin',
+        'User'
+    ],
+
+    'default_permissions' => [
+      'user management',
+      'channel management',
+      'thread management',
+      'answers management',
+    ],
 ];

@@ -5,7 +5,7 @@
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Answer::class, function (Faker $faker) {
+$factory->define(\App\Models\Answer::class, function (Faker $faker) {
     return [
         'content' => $faker->realText(),
         'thread_id' => \factory(\App\Models\Thread::class)->create()->id,

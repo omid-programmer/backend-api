@@ -5,7 +5,8 @@
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Thread::class, function (Faker $faker) {
+
+$factory->define(\App\Models\Thread::class, function (Faker $faker) {
     $title = $faker->sentence(4);
     return [
         'title' => $title,
