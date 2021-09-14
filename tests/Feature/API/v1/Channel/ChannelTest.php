@@ -49,7 +49,7 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
@@ -62,7 +62,7 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
@@ -80,7 +80,7 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
@@ -93,11 +93,11 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
-        $channel = factory(Channel::class)->create([
+        $channel = Channel::factory()->create([
             'name' => 'Laravel'
         ]);
         $response = $this->json('PUT', route('channel.update'), [
@@ -118,7 +118,7 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
@@ -131,11 +131,11 @@ class ChannelTest extends TestCase
     {
         $this->registerRolesAndPermissions();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         $user->givePermissionTo('channel management');
 
-        $channel = factory(Channel::class)->create();
+        $channel = Channel::factory()->create();
         $response = $this->json('DELETE', route('channel.delete'), [
             'id' => $channel->id
         ]);

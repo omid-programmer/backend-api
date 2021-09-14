@@ -19,9 +19,9 @@ class SubscribeTest extends TestCase
     /** @test */
     public function user_can_subscribe_to_a_thread()
     {
-        Sanctum::actingAs(factory(User::class)->create());
+        Sanctum::actingAs(User::factory()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
         $response = $this->post(route('subscribe', [$thread]));
 
         $response->assertSuccessful();
@@ -33,9 +33,9 @@ class SubscribeTest extends TestCase
     /** @test */
     public function user_can_unsubscribe_from_a_thread()
     {
-        Sanctum::actingAs(factory(User::class)->create());
+        Sanctum::actingAs(User::factory()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
         $response = $this->post(route('unSubscribe', [$thread]));
 
         $response->assertSuccessful();
@@ -47,11 +47,11 @@ class SubscribeTest extends TestCase
     /** @test */
     public function notification_will_send_to_subscribers_of_a_thread()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
         Notification::fake();
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
 
         $subscribe_response = $this->post(route('subscribe', [$thread]));
         $subscribe_response->assertSuccessful();

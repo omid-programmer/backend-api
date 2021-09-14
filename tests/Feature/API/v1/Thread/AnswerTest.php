@@ -26,7 +26,7 @@ class AnswerTest extends TestCase
     /** @test */
     function create_answer_should_be_validated()
     {
-        Sanctum::actingAs(factory(User::class)->create());
+        Sanctum::actingAs(User::factory()->create());
         $response = $this->postJson(route('answers.store'), []);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -36,9 +36,9 @@ class AnswerTest extends TestCase
     /** @test */
     function can_submit_new_answer_for_thread()
     {
-        Sanctum::actingAs(factory(User::class)->create());
+        Sanctum::actingAs(User::factory()->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
         $response = $this->postJson(route('answers.store'), [
             'content' => 'Foo',
             'thread_id' => $thread->id
@@ -54,10 +54,10 @@ class AnswerTest extends TestCase
     /** @test */
     function user_score_will_increase_by_submit_new_answer()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        $thread = factory(Thread::class)->create();
+        $thread = Thread::factory()->create();
         $response = $this->postJson(route('answers.store'), [
             'content' => 'Foo',
             'thread_id' => $thread->id
@@ -71,8 +71,8 @@ class AnswerTest extends TestCase
     /** @test */
     function update_answer_should_be_validated()
     {
-        Sanctum::actingAs(factory(User::class)->create());
-        $answer = factory(Answer::class)->create();
+        Sanctum::actingAs(User::factory()->create());
+        $answer = Answer::factory()->create();
         $response = $this->putJson(route('answers.update', [$answer]), []);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -82,10 +82,10 @@ class AnswerTest extends TestCase
     /** @test */
     function can_update_own_answer_of_thread()
     {
-        $user = factory(User::class)->create();
+        $user = Thread::factory()->create();
         Sanctum::actingAs($user);
 
-        $answer = factory(Answer::class)->create([
+        $answer = Answer::factory()->create([
             'content' => 'Foo',
             'user_id' => $user->id
         ]);
@@ -106,10 +106,10 @@ class AnswerTest extends TestCase
     /** @test */
     function can_delete_own_answer()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         Sanctum::actingAs($user);
 
-        $answer = factory(Answer::class)->create([
+        $answer = Answer::factory()->create([
             'user_id' => $user->id
         ]);
 

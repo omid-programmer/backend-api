@@ -1,14 +1,36 @@
 <?php
 
-/** @var Factory $factory */
+namespace Database\Factories;
 
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\Answer;
+use App\Models\Thread;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Permission\Models\Permission;
 
-$factory->define(\App\Models\Answer::class, function (Faker $faker) {
-    return [
-        'content' => $faker->realText(),
-        'thread_id' => \factory(\App\Models\Thread::class)->create()->id,
-        'user_id' => \factory(\App\Models\User::class)->create()->id,
-    ];
-});
+
+class AnswerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Answer::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        
+        return [
+            'content' => $this->faker->realText(),
+            'thread_id' => Thread::factory()->create()->id,
+            'user_id' => User::factory()->create()->id,
+        ];
+    }
+}
+
