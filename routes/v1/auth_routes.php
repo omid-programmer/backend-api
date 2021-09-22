@@ -13,7 +13,6 @@ Route::prefix('/auth')->group(function () {
         AuthController::class,
         'login'
     ])->name('auth.login');
-
     Route::get('/user', [
         AuthController::class,
         'user'

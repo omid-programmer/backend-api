@@ -33,6 +33,6 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        Thread::factory()->count(10)->create();
+        Thread::factory()->count(10)->create();    
     }
 }
