@@ -4,20 +4,19 @@ namespace App\Http\Controllers\API\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-
+    protected $user;
     public function __construct()
     {
         $this->middleware('auth')->only('user');
+        $this->user=resolve(UserRepository::class);
     }
 
     /**
@@ -36,7 +35,7 @@ class AuthController extends Controller
         ]);
 
         // Insert User Into Database
-        $user = resolve(UserRepository::class)->create($request);
+        $user = $this->user->create($request);
 
         $defaultSuperAdminEmail = config('permission.default_super_admin_email');
 
@@ -71,7 +70,12 @@ class AuthController extends Controller
             'email' => 'incorrect credentials.'
         ]);
     }
-
+/**
+     * @method POST
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function user()
     {
         $data = [

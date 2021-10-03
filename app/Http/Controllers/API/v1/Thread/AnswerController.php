@@ -8,9 +8,7 @@ use App\Notifications\NewReplySubmitted;
 use App\Repositories\AnswerRepository;
 use App\Repositories\SubscribeRepository;
 use App\Repositories\UserRepository;
-use App\Models\Subscribe;
 use App\Models\Thread;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
@@ -18,16 +16,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AnswerController extends Controller
 {
+    protected $answer;
     public function __construct()
     {
         $this->middleware(['user-block'])->except([
             'index',
         ]);
+        $this->answer=resolve(AnswerRepository::class);
     }
 
     public function index() 
     {
-        $answers = resolve(AnswerRepository::class)->getAllAnswers();
+        $answers = $this->answer->getAllAnswers();
 
         return response()->json($answers, Response::HTTP_OK);
     }
@@ -40,7 +40,7 @@ class AnswerController extends Controller
         ]);
 
         // Insert Data Into DB
-        resolve(AnswerRepository::class)->store($request);
+        $this->answer->store($request);
 
         // Get List Of User Id Which Subscribed To A Thread Id
         $notifiable_users_id = resolve(SubscribeRepository::class)->getNotifiableUsers($request->thread_id);
@@ -66,7 +66,7 @@ class AnswerController extends Controller
         ]);
 
         if (Gate::forUser(auth()->user())->allows('user-answer', $answer)) {
-            resolve(AnswerRepository::class)->update($request, $answer);
+            $this->answer->update($request, $answer);
 
             return \response()->json([
                 'message' => 'answer updated successfully'
@@ -81,7 +81,7 @@ class AnswerController extends Controller
     public function destroy(Answer $answer)
     {
         if (Gate::forUser(auth()->user())->allows('user-answer', $answer)) {
-            resolve(AnswerRepository::class)->destroy($answer);
+            $this->answer->destroy($answer);
 
             return \response()->json([
                 'message' => 'answer deleted successfully'

@@ -13,24 +13,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThreadController extends Controller
 {
+    protected $thread;
     public function __construct()
     {
         $this->middleware(['user-block'])->except([
             'index',
             'show',
         ]);
+        $this->thread=resolve(ThreadRepository::class);
     }
 
     public function index()
     {
-        $threads = resolve(ThreadRepository::class)->getAllAvailableThreads();
+        $threads = $this->thread->getAllAvailableThreads();
 
         return \response()->json($threads, Response::HTTP_OK);
     }
 
     public function show($slug)
     {
-        $thread = resolve(ThreadRepository::class)->getThreadBySlug($slug);
+        $thread = $this->thread->getThreadBySlug($slug);
 
         return \response()->json($thread, Response::HTTP_OK);
     }
@@ -43,7 +45,7 @@ class ThreadController extends Controller
             'channel_id' => 'required'
         ]);
 
-        resolve(ThreadRepository::class)->store($request);
+        $this->thread->store($request);
 
         return \response()->json([
             'message' => 'thread created successfully'
@@ -64,7 +66,7 @@ class ThreadController extends Controller
         ]);
 
         if (Gate::forUser(auth()->user())->allows('user-thread', $thread)) {
-            resolve(ThreadRepository::class)->update($thread, $request);
+            $this->thread->update($thread, $request);
 
             return \response()->json([
                 'message' => 'thread updated successfully'
@@ -79,7 +81,7 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         if (Gate::forUser(auth()->user())->allows('user-thread', $thread)) {
-            resolve(ThreadRepository::class)->destroy($thread);
+            $this->thread->destroy($thread);
 
             return \response()->json([
                 'message' => 'thread deleted successfully'
